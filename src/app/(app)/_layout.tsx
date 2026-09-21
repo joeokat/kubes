@@ -1,8 +1,8 @@
-import { Redirect } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
-import { useAuth } from "../contexts/auth";
+import { useAuth } from "../../contexts/auth";
 
-export default function IndexGateway() {
+export default function AppLayout() {
   const { user, profile, isLoading, isInitialized } = useAuth();
 
   if (isLoading || !isInitialized) {
@@ -13,16 +13,24 @@ export default function IndexGateway() {
     );
   }
 
-  // Not signed in -> Sign in
   if (!user) {
     return <Redirect href="/(auth)/sign-in" />;
   }
 
-  // Signed in but onboarding incomplete -> 3-step quiz
   if (profile && !profile.onboarding_completed) {
     return <Redirect href="/(auth)/onboarding" />;
   }
 
-  // Signed in and onboarding completed -> Dashboard
-  return <Redirect href="/(app)/dashboard" />;
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: "#F8F9FB",
+        },
+      }}
+    >
+      <Stack.Screen name="dashboard" options={{ title: "Dashboard" }} />
+    </Stack>
+  );
 }
