@@ -110,8 +110,8 @@ and its Definition of Done — nothing more.
 ### Phase 1 — MVP (build in this exact order)
 
 - [x] 1. Auth & onboarding (Google sign-in + 3-step quiz)
-- [ ] 2. Dashboard with skippable guided walkthrough
-- [ ] 3. Investing 101 curriculum + lesson unlock logic + quizzes
+- [x] 2. Dashboard with skippable guided walkthrough
+- [x] 3. Investing 101 curriculum + lesson unlock logic + quizzes
 - [ ] 4. Financial health meter (self-reported quiz version)
 - [ ] 5. Expense tracker & budgeting tool (framework selection, expense
      logging, spending meter, warnings, recommendations)
@@ -171,3 +171,5 @@ _(Agents: log anything you noticed but didn't act on here, with the date.)_
 _(Agents: add entries here as `YYYY-MM-DD — Phase X, task N — one-line summary`.)_
 2026-09-20 — Phase 0, Setup — Audited Expo setup, cleaned boilerplate, configured NativeWind, pinned all dependencies, established 3-tier Supabase architecture and base schema with RLS, wired Sentry, and confirmed universal builds for web, iOS, and Android.
 2026-09-21 — Phase 1, task 1 — Built Google auth with session persistence, 3-step onboarding quiz writing to profiles, and route protection with moodboard styling across web, iOS, and Android.
+2026-09-27 — Phase 1, task 2 — Built Finor/Aurex-styled dashboard with learning momentum metrics, core educational module cards, and a 4-step skippable guided walkthrough.
+2026-09-27 — Phase 1, task 3 — Built 7-lesson Investing 101 curriculum with Ghana localization, end-of-lesson quizzes with passing threshold grading, unlock progression logic, and progress tracking.
