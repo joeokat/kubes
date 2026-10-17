@@ -116,8 +116,8 @@ and its Definition of Done — nothing more.
 - [x] 5. Expense tracker & budgeting tool (logging, spending meter, warnings, recommendations)
 - [x] 6. 90-day savings challenge (manual check-ins, streak, progress)
 - [x] 7. Public forum (threads, replies, report action)
-- [ ] 8. Blog (premium-gated)
-- [ ] 9. Payment flow (Paystack checkout + Edge Function webhook
+- [x] 8. Blog (premium-gated)
+- [x] 9. Payment flow (Paystack checkout + Edge Function webhook
      verification for both lesson unlocks and lifetime premium)
 - [ ] 10. Public policy pages (Terms, Privacy, Risk Disclaimer, Refund
       Policy, Community Guidelines) linked from the footer everywhere
@@ -177,3 +177,5 @@ _(Agents: add entries here as `YYYY-MM-DD — Phase X, task N — one-line summa
 2026-10-04 — Phase 1, task 5 — Built expense logging, customizable budget frameworks, monthly spending meters, overspend warnings, and non-advisory recommendations with calculation tests.
 2026-10-04 — Phase 1, task 6 — Built the 90-day manual savings challenge with daily/weekly/monthly targets, confirmed check-ins, progress, contribution history, and streak tests.
 2026-10-17 — Phase 1, task 7 — Built public community forum with category filters, discussion threads, reply cascades, report action modal, and universal platform verification.
+2026-10-17 — Phase 1, task 8 — Built premium-gated blog and market insights with reading time calculation, preview gating, category filters, and full multiplatform verification.
+2026-10-17 — Phase 1, task 9 — Built Paystack hosted checkout flow, Edge Functions for webhook verification and session initialization, database confirmation polling, lesson/premium unlock gating, and multiplatform verification.

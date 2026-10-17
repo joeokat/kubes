@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ForumReportModal } from "../../../components/forum-report-modal";
+import { PolicyFooter } from "../../../components/policy-footer";
 import { fetchForumThreads, FORUM_CATEGORIES } from "../../../lib/forum";
 import type {
   ForumCategory,
@@ -178,6 +179,7 @@ export default function ForumScreen() {
             ))
           )}
         </View>
+        <PolicyFooter />
       </ScrollView>
       <ForumReportModal
         target={reportTarget}

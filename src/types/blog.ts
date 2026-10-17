@@ -16,3 +16,4 @@ export interface BlogFilterOptions {
   category?: string;
   premiumOnly?: boolean;
 }
+

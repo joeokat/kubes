@@ -245,3 +245,4 @@ export async function fetchBlogPostBySlug(
     error: null,
   };
 }
+

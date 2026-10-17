@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useAuth } from "../../../contexts/auth";
 import { fetchBlogPosts } from "../../../lib/blog";
 import { BlogPost } from "../../../types/blog";
+import { PolicyFooter } from "../../../components/policy-footer";
 
 export default function BlogOverviewScreen() {
   const router = useRouter();
@@ -209,12 +210,9 @@ export default function BlogOverviewScreen() {
         </View>
 
         {/* Compliance Disclaimer Footer per SOP §7 */}
-        <View className="pt-6 pb-2 border-t border-slate-200/70">
-          <Text className="text-xs text-slate-500 text-center leading-relaxed">
-            This platform is for education only. Nothing here is financial, investment, or trading advice, and no outcome is promised. Kubes is not a registered investment advisor or broker-dealer.
-          </Text>
-        </View>
+        <PolicyFooter />
       </ScrollView>
     </SafeAreaView>
   );
 }
+

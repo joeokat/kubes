@@ -8,6 +8,7 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { PolicyFooter } from "../../components/policy-footer";
 import { useAuth } from "../../contexts/auth";
 import {
     ONBOARDING_STEPS,
@@ -218,6 +219,9 @@ export default function OnboardingScreen() {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Compliance Footer per SOP §7 */}
+        <PolicyFooter />
       </ScrollView>
     </SafeAreaView>
   );

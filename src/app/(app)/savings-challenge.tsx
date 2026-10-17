@@ -22,6 +22,7 @@ import type {
   SavingsCheckIn,
   SavingsFrequency,
 } from "../../types/savings-challenge";
+import { PolicyFooter } from "../../components/policy-footer";
 
 const FREQUENCIES: { value: SavingsFrequency; label: string }[] = [
   { value: "daily", label: "Daily" },
@@ -377,6 +378,7 @@ export default function SavingsChallengeScreen() {
             </View>
           )}
         </View>
+        <PolicyFooter />
       </ScrollView>
     </SafeAreaView>
   );

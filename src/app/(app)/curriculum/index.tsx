@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     ActivityIndicator,
     ScrollView,
@@ -15,25 +15,38 @@ import {
     getAllLessons,
     isLessonUnlocked,
 } from "../../../lib/curriculum";
+import { fetchUserUnlockedLessons } from "../../../lib/payments";
 import { Lesson, UserLessonProgress } from "../../../types/curriculum";
+import { PaystackCheckoutModal } from "../../../components/paystack-checkout-modal";
+import { PolicyFooter } from "../../../components/policy-footer";
 
 export default function CurriculumOverviewScreen() {
   const router = useRouter();
   const { user, profile } = useAuth();
   const [lessons] = useState<Lesson[]>(getAllLessons());
   const [progressList, setProgressList] = useState<UserLessonProgress[]>([]);
+  const [unlockedLessonIds, setUnlockedLessonIds] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showCheckoutModal, setShowCheckoutModal] = useState<boolean>(false);
+  const [checkoutLesson, setCheckoutLesson] = useState<Lesson | null>(null);
+
+  const loadUserData = useCallback(async () => {
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    const [progress, unlocks] = await Promise.all([
+      fetchUserProgress(user.id),
+      fetchUserUnlockedLessons(user.id),
+    ]);
+    setProgressList(progress);
+    setUnlockedLessonIds(unlocks);
+    setLoading(false);
+  }, [user]);
 
   useEffect(() => {
-    if (user) {
-      fetchUserProgress(user.id).then((data) => {
-        setProgressList(data);
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+    loadUserData();
+  }, [loadUserData]);
 
   const completedLessonIds = progressList.map((p) => p.lesson_id);
   const completedCount = completedLessonIds.length;
@@ -54,13 +67,8 @@ export default function CurriculumOverviewScreen() {
       return;
     }
     if (!unlocked) {
-      alert(
-        `This lesson requires an unlock (GH₵0.50) or Lifetime Premium ($20). Payment integration activates in Task 9.`,
-      );
-      // In dev mode, still allow navigating
-      if (process.env.EXPO_PUBLIC_APP_ENV === "development") {
-        router.push(`/(app)/curriculum/${lesson.slug}` as any);
-      }
+      setCheckoutLesson(lesson);
+      setShowCheckoutModal(true);
       return;
     }
     router.push(`/(app)/curriculum/${lesson.slug}` as any);
@@ -140,7 +148,7 @@ export default function CurriculumOverviewScreen() {
                   lesson.order_index,
                   completedLessonIds,
                 );
-                const unlocked = isLessonUnlocked(lesson, isPremium);
+                const unlocked = isLessonUnlocked(lesson, isPremium, unlockedLessonIds);
 
                 return (
                   <TouchableOpacity
@@ -247,14 +255,22 @@ export default function CurriculumOverviewScreen() {
         </View>
 
         {/* Compliance Footer per SOP §7 */}
-        <View className="pt-6 pb-2 border-t border-slate-200/70">
-          <Text className="text-xs text-slate-500 text-center leading-relaxed">
-            This platform is for education only. Nothing here is financial,
-            investment, or trading advice, and no outcome is promised. Kubes is
-            not a registered investment advisor or broker-dealer.
-          </Text>
-        </View>
+        <PolicyFooter />
       </ScrollView>
+
+      <PaystackCheckoutModal
+        visible={showCheckoutModal}
+        initialPlanType="lesson_unlock"
+        lessonId={checkoutLesson?.id}
+        lessonTitle={checkoutLesson?.title}
+        onClose={() => {
+          setShowCheckoutModal(false);
+          setCheckoutLesson(null);
+        }}
+        onSuccess={() => {
+          loadUserData();
+        }}
+      />
     </SafeAreaView>
   );
 }

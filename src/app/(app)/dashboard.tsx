@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { GuidedWalkthrough } from "../../components/guided-walkthrough";
+import { PaystackCheckoutModal } from "../../components/paystack-checkout-modal";
+import { PolicyFooter } from "../../components/policy-footer";
 import { useAuth } from "../../contexts/auth";
 import { fetchUserProgress } from "../../lib/curriculum";
 import {
@@ -17,7 +19,7 @@ import {
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, refreshProfile } = useAuth();
   const [showWalkthrough, setShowWalkthrough] = useState<boolean>(false);
   const [activeHighlightTarget, setActiveHighlightTarget] = useState<
     string | null
@@ -25,6 +27,7 @@ export default function DashboardScreen() {
   const [completedLessonsCount, setCompletedLessonsCount] = useState<number>(0);
   const [healthScoreRecord, setHealthScoreRecord] =
     useState<HealthQuizRecord | null>(null);
+  const [showPremiumModal, setShowPremiumModal] = useState<boolean>(false);
 
   // Check walkthrough status on initial mount
   useEffect(() => {
@@ -176,6 +179,47 @@ export default function DashboardScreen() {
               </View>
             </View>
           </View>
+
+          {/* Lifetime Premium Membership Status / Upgrade Banner */}
+          {profile?.premium_status ? (
+            <View className="bg-emerald-50 border border-emerald-200/80 rounded-2xl px-5 py-3 mb-6 flex-row items-center justify-between">
+              <View className="flex-row items-center space-x-2">
+                <Text className="text-emerald-700 text-base mr-1">★</Text>
+                <Text className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                  Lifetime Premium Member
+                </Text>
+              </View>
+              <Text className="text-[11px] font-semibold text-emerald-700">
+                All 7 Lessons & Blog Posts Unlocked
+              </Text>
+            </View>
+          ) : (
+            <View className="bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-md mb-6 flex-row flex-wrap items-center justify-between gap-4">
+              <View className="flex-1 min-w-[260px]">
+                <View className="self-start px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 mb-2">
+                  <Text className="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">
+                    ★ Lifetime Premium Access
+                  </Text>
+                </View>
+                <Text className="text-xl sm:text-2xl font-bold text-white mb-1">
+                  Unlock Everything for $20
+                </Text>
+                <Text className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                  One-time payment via Paystack. Gain unlimited lifetime access to all 7 Investing 101 lessons, future modules, and all founder market insights.
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => setShowPremiumModal(true)}
+                activeOpacity={0.85}
+                className="py-3.5 px-6 rounded-2xl bg-emerald-500 active:bg-emerald-600 shadow-sm"
+              >
+                <Text className="text-xs font-bold text-slate-950 uppercase tracking-wider">
+                  Upgrade Now ($20) →
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
           {/* Section Heading */}
           <View className="flex-row items-center justify-between mb-4 px-1">
@@ -449,17 +493,40 @@ export default function DashboardScreen() {
                 </Text>
               </TouchableOpacity>
             </View>
+
+            {/* Module 6: Market Insights & News */}
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 items-center justify-center">
+                  <Text className="text-emerald-700 font-bold text-base">📰</Text>
+                </View>
+                <View className="px-2.5 py-0.5 bg-amber-50 border border-amber-200/60 rounded-full">
+                  <Text className="text-amber-800 text-[10px] font-bold uppercase tracking-wider">
+                    {profile?.premium_status ? "Unlocked ✓" : "Free & Premium"}
+                  </Text>
+                </View>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Market Insights & News
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Calm market explainers, GSE insights, and macro analysis written by the founder.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/blog" as any)}
+                activeOpacity={0.8}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  Read Insights →
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
         {/* Compliance Footer per SOP §7 */}
-        <View className="pt-6 pb-2 border-t border-slate-200/70">
-          <Text className="text-xs text-slate-500 text-center leading-relaxed">
-            This platform is for education only. Nothing here is financial,
-            investment, or trading advice, and no outcome is promised. Kubes is
-            not a registered investment advisor or broker-dealer.
-          </Text>
-        </View>
+        <PolicyFooter />
       </ScrollView>
 
       {/* Guided Walkthrough Tour Overlay */}
@@ -467,6 +534,16 @@ export default function DashboardScreen() {
         visible={showWalkthrough}
         onClose={handleCloseTour}
         onStepChange={handleWalkthroughStepChange}
+      />
+
+      {/* Paystack Checkout Modal for Lifetime Premium */}
+      <PaystackCheckoutModal
+        visible={showPremiumModal}
+        initialPlanType="lifetime_premium"
+        onClose={() => setShowPremiumModal(false)}
+        onSuccess={() => {
+          refreshProfile();
+        }}
       />
     </SafeAreaView>
   );

@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     ActivityIndicator,
     ScrollView,
@@ -13,20 +13,41 @@ import {
     getAllLessons,
     getLessonBySlug,
     gradeQuiz,
+    isLessonUnlocked,
     saveLessonProgress,
 } from "../../../lib/curriculum";
+import { fetchUserUnlockedLessons } from "../../../lib/payments";
 import { QuizResult } from "../../../types/curriculum";
+import { PaystackCheckoutModal } from "../../../components/paystack-checkout-modal";
+import { PolicyFooter } from "../../../components/policy-footer";
 
 export default function LessonDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   const lesson = getLessonBySlug(slug || "");
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [unlockedLessonIds, setUnlockedLessonIds] = useState<string[]>([]);
+  const [isCheckingAccess, setIsCheckingAccess] = useState<boolean>(true);
+  const [showCheckoutModal, setShowCheckoutModal] = useState<boolean>(false);
+
+  const loadUnlocks = useCallback(async () => {
+    if (!user) {
+      setIsCheckingAccess(false);
+      return;
+    }
+    const unlocks = await fetchUserUnlockedLessons(user.id);
+    setUnlockedLessonIds(unlocks);
+    setIsCheckingAccess(false);
+  }, [user]);
+
+  useEffect(() => {
+    loadUnlocks();
+  }, [loadUnlocks]);
 
   if (!lesson) {
     return (
@@ -45,6 +66,62 @@ export default function LessonDetailScreen() {
             Return to Curriculum
           </Text>
         </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
+
+  const isPremium = profile?.premium_status ?? false;
+  const isUnlocked = isLessonUnlocked(lesson, isPremium, unlockedLessonIds);
+
+  if (!isUnlocked && !isCheckingAccess) {
+    return (
+      <SafeAreaView className="flex-1 bg-[#F8F9FB] p-6 justify-between">
+        <View className="max-w-md mx-auto w-full pt-10">
+          <View className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 items-center justify-center mb-4">
+            <Text className="text-2xl">🔒</Text>
+          </View>
+          <View className="self-start px-3 py-1 bg-amber-100 rounded-full mb-3">
+            <Text className="text-amber-800 text-[10px] font-bold uppercase tracking-wider">
+              Lesson {lesson.order_index} • GH₵0.50
+            </Text>
+          </View>
+          <Text className="text-2xl font-extrabold text-slate-900 tracking-tight mb-2">
+            {lesson.title}
+          </Text>
+          <Text className="text-sm text-slate-600 leading-relaxed mb-6">
+            This module requires an unlock to access study notes and the end-of-lesson quiz. Pay GH₵0.50 or unlock all lessons and insights with Lifetime Premium ($20).
+          </Text>
+
+          <TouchableOpacity
+            onPress={() => setShowCheckoutModal(true)}
+            activeOpacity={0.85}
+            className="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 active:bg-emerald-700 items-center justify-center shadow-xs mb-3"
+          >
+            <Text className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
+              Unlock Lesson with Paystack →
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => router.replace("/(app)/curriculum" as any)}
+            className="w-full py-3 px-6 rounded-2xl border border-slate-200 bg-white items-center justify-center"
+          >
+            <Text className="text-xs font-semibold text-slate-700">
+              ← Return to Curriculum
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <PaystackCheckoutModal
+          visible={showCheckoutModal}
+          initialPlanType="lesson_unlock"
+          lessonId={lesson.id}
+          lessonTitle={lesson.title}
+          onClose={() => setShowCheckoutModal(false)}
+          onSuccess={() => {
+            loadUnlocks();
+          }}
+        />
       </SafeAreaView>
     );
   }
@@ -386,13 +463,7 @@ export default function LessonDetailScreen() {
         </View>
 
         {/* Compliance Disclaimer per SOP §7 */}
-        <View className="pt-6 pb-2 border-t border-slate-200/70">
-          <Text className="text-xs text-slate-500 text-center leading-relaxed">
-            This platform is for education only. Nothing here is financial,
-            investment, or trading advice, and no outcome is promised. Kubes is
-            not a registered investment advisor or broker-dealer.
-          </Text>
-        </View>
+        <PolicyFooter />
       </ScrollView>
     </SafeAreaView>
   );
