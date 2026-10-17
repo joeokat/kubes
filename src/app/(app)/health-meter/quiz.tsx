@@ -1,22 +1,44 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+    ActivityIndicator,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../../contexts/auth";
 import {
-  calculateHealthScore,
-  saveHealthQuizResponse,
-  INCOME_RANGE_OPTIONS,
-  INCOME_STABILITY_OPTIONS,
+    calculateHealthScore,
+    INCOME_RANGE_OPTIONS,
+    INCOME_STABILITY_OPTIONS,
+    saveHealthQuizResponse,
 } from "../../../lib/health-meter";
 import { IncomeStability } from "../../../types/health-meter";
 
 const ESSENTIALS_OPTIONS = [
-  { percent: 45, label: "45% or less", subtitle: "Comfortable margin; low fixed costs" },
-  { percent: 55, label: "55% (Balanced)", subtitle: "Aligned with the 55/5/10/15/15 model" },
+  {
+    percent: 45,
+    label: "45% or less",
+    subtitle: "Comfortable margin; low fixed costs",
+  },
+  {
+    percent: 55,
+    label: "55% (Balanced)",
+    subtitle: "Aligned with the 55/5/10/15/15 model",
+  },
   { percent: 65, label: "65%", subtitle: "Moderate; some room for savings" },
-  { percent: 75, label: "75%", subtitle: "Tight; fixed costs dominate cash flow" },
-  { percent: 85, label: "85%+", subtitle: "High fixed overhead; very little margin" },
+  {
+    percent: 75,
+    label: "75%",
+    subtitle: "Tight; fixed costs dominate cash flow",
+  },
+  {
+    percent: 85,
+    label: "85%+",
+    subtitle: "High fixed overhead; very little margin",
+  },
 ];
 
 const SAVINGS_OPTIONS = [
@@ -29,7 +51,11 @@ const SAVINGS_OPTIONS = [
 
 const EMERGENCY_OPTIONS = [
   { months: 0, label: "0 Months", subtitle: "No cash reserve currently" },
-  { months: 0.5, label: "Under 1 Month", subtitle: "Less than 30 days of expenses" },
+  {
+    months: 0.5,
+    label: "Under 1 Month",
+    subtitle: "Less than 30 days of expenses",
+  },
   { months: 2, label: "1 to 2 Months", subtitle: "Starter emergency buffer" },
   { months: 4, label: "3 to 5 Months", subtitle: "Solid financial resilience" },
   { months: 6, label: "6+ Months", subtitle: "Maximum safety cushion" },
@@ -41,7 +67,8 @@ export default function HealthQuizScreen() {
 
   const [step, setStep] = useState<number>(1);
   const [incomeRange, setIncomeRange] = useState<string>("tier_2");
-  const [incomeStability, setIncomeStability] = useState<IncomeStability>("stable");
+  const [incomeStability, setIncomeStability] =
+    useState<IncomeStability>("stable");
   const [essentialsPercent, setEssentialsPercent] = useState<number>(55);
   const [savingsRate, setSavingsRate] = useState<number>(10);
   const [emergencyMonths, setEmergencyMonths] = useState<number>(2);
@@ -72,7 +99,10 @@ export default function HealthQuizScreen() {
       incomeStability,
       spendBuckets: {
         essentialsPercent,
-        discretionaryPercent: Math.max(0, 100 - essentialsPercent - savingsRate),
+        discretionaryPercent: Math.max(
+          0,
+          100 - essentialsPercent - savingsRate,
+        ),
         debtOrOtherPercent: 0,
       },
       savingsRate,
@@ -83,7 +113,9 @@ export default function HealthQuizScreen() {
     const { error } = await saveHealthQuizResponse(user.id, input, result);
 
     if (error) {
-      setErrorMessage("Could not record assessment to database. Please try again.");
+      setErrorMessage(
+        "Could not record assessment to database. Please try again.",
+      );
       setIsSubmitting(false);
       return;
     }
@@ -141,7 +173,8 @@ export default function HealthQuizScreen() {
                 Income & Predictability
               </Text>
               <Text className="text-sm text-slate-500 mb-6">
-                Tell us about your earnings level and how consistent your payouts are.
+                Tell us about your earnings level and how consistent your
+                payouts are.
               </Text>
 
               {/* Income Tier */}
@@ -183,7 +216,9 @@ export default function HealthQuizScreen() {
                           }`}
                         >
                           {isSelected && (
-                            <Text className="text-white text-[10px] font-bold">✓</Text>
+                            <Text className="text-white text-[10px] font-bold">
+                              ✓
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -231,7 +266,9 @@ export default function HealthQuizScreen() {
                           }`}
                         >
                           {isSelected && (
-                            <Text className="text-white text-[10px] font-bold">✓</Text>
+                            <Text className="text-white text-[10px] font-bold">
+                              ✓
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -259,7 +296,8 @@ export default function HealthQuizScreen() {
                 Essential Living Expenses
               </Text>
               <Text className="text-sm text-slate-500 mb-6">
-                What percentage of your income goes toward non-negotiables (housing, groceries, utilities, basic transport)?
+                What percentage of your income goes toward non-negotiables
+                (housing, groceries, utilities, basic transport)?
               </Text>
 
               <View className="space-y-2 mb-6">
@@ -297,7 +335,9 @@ export default function HealthQuizScreen() {
                           }`}
                         >
                           {isSelected && (
-                            <Text className="text-white text-[10px] font-bold">✓</Text>
+                            <Text className="text-white text-[10px] font-bold">
+                              ✓
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -325,7 +365,8 @@ export default function HealthQuizScreen() {
                 Monthly Savings Rate
               </Text>
               <Text className="text-sm text-slate-500 mb-6">
-                What percentage of your earnings do you reliably set aside for savings or investing?
+                What percentage of your earnings do you reliably set aside for
+                savings or investing?
               </Text>
 
               <View className="space-y-2 mb-6">
@@ -363,7 +404,9 @@ export default function HealthQuizScreen() {
                           }`}
                         >
                           {isSelected && (
-                            <Text className="text-white text-[10px] font-bold">✓</Text>
+                            <Text className="text-white text-[10px] font-bold">
+                              ✓
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -391,7 +434,8 @@ export default function HealthQuizScreen() {
                 Emergency Runway
               </Text>
               <Text className="text-sm text-slate-500 mb-6">
-                If all income stopped today, how many months of basic survival expenses could you fund?
+                If all income stopped today, how many months of basic survival
+                expenses could you fund?
               </Text>
 
               <View className="space-y-2 mb-6">
@@ -429,7 +473,9 @@ export default function HealthQuizScreen() {
                           }`}
                         >
                           {isSelected && (
-                            <Text className="text-white text-[10px] font-bold">✓</Text>
+                            <Text className="text-white text-[10px] font-bold">
+                              ✓
+                            </Text>
                           )}
                         </View>
                       </View>
@@ -485,7 +531,9 @@ export default function HealthQuizScreen() {
         {/* Compliance Disclaimer Footer per SOP §7 */}
         <View className="pt-6 pb-2 border-t border-slate-200/70">
           <Text className="text-xs text-slate-500 text-center leading-relaxed">
-            This platform is for education only. Nothing here is financial, investment, or trading advice, and no outcome is promised. Kubes is not a registered investment advisor or broker-dealer.
+            This platform is for education only. Nothing here is financial,
+            investment, or trading advice, and no outcome is promised. Kubes is
+            not a registered investment advisor or broker-dealer.
           </Text>
         </View>
       </ScrollView>

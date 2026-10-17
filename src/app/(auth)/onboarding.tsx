@@ -83,7 +83,9 @@ export default function OnboardingScreen() {
     <SafeAreaView className="flex-1 bg-[#F8F9FB]">
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
-        className="flex-1 px-5 py-6 max-w-xl mx-auto w-full justify-between"
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        className="flex-1 px-5 py-6 max-w-xl mx-auto w-full justify-between no-scrollbar"
       >
         <View>
           {/* Top Navigation & Progress */}

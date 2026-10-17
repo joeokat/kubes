@@ -1,15 +1,14 @@
-import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import {
-  calculateSavingsScore,
-  calculateEmergencyScore,
-  calculateSpendScore,
-  calculateStabilityScore,
-  determineScoreBand,
-  calculateHealthScore,
-  generateHealthTips,
-} from "../health-meter.ts";
+import { describe, it } from "node:test";
 import type { HealthQuizInput, SpendBuckets } from "../health-meter.ts";
+import {
+    calculateEmergencyScore,
+    calculateHealthScore,
+    calculateSavingsScore,
+    calculateSpendScore,
+    calculateStabilityScore,
+    determineScoreBand
+} from "../health-meter.ts";
 
 describe("Financial Health Meter - Calculation & Scoring", () => {
   describe("Savings Rate Scoring (0-35 points)", () => {
@@ -79,24 +78,57 @@ describe("Financial Health Meter - Calculation & Scoring", () => {
 
   describe("Spend Buckets Essentials Scoring (0-20 points)", () => {
     it("awards 20 points when essentials are <= 50%", () => {
-      const buckets: SpendBuckets = { essentialsPercent: 45, discretionaryPercent: 25, debtOrOtherPercent: 30 };
+      const buckets: SpendBuckets = {
+        essentialsPercent: 45,
+        discretionaryPercent: 25,
+        debtOrOtherPercent: 30,
+      };
       assert.strictEqual(calculateSpendScore(buckets), 20);
     });
 
     it("awards 17 points when essentials are between 51% and 60%", () => {
-      const buckets: SpendBuckets = { essentialsPercent: 55, discretionaryPercent: 20, debtOrOtherPercent: 25 };
+      const buckets: SpendBuckets = {
+        essentialsPercent: 55,
+        discretionaryPercent: 20,
+        debtOrOtherPercent: 25,
+      };
       assert.strictEqual(calculateSpendScore(buckets), 17);
     });
 
     it("awards 12 points when essentials are between 61% and 70%", () => {
-      const buckets: SpendBuckets = { essentialsPercent: 65, discretionaryPercent: 20, debtOrOtherPercent: 15 };
+      const buckets: SpendBuckets = {
+        essentialsPercent: 65,
+        discretionaryPercent: 20,
+        debtOrOtherPercent: 15,
+      };
       assert.strictEqual(calculateSpendScore(buckets), 12);
     });
 
     it("awards lower points as essentials consume higher percentages", () => {
-      assert.strictEqual(calculateSpendScore({ essentialsPercent: 75, discretionaryPercent: 15, debtOrOtherPercent: 10 }), 8);
-      assert.strictEqual(calculateSpendScore({ essentialsPercent: 85, discretionaryPercent: 10, debtOrOtherPercent: 5 }), 4);
-      assert.strictEqual(calculateSpendScore({ essentialsPercent: 95, discretionaryPercent: 5, debtOrOtherPercent: 0 }), 2);
+      assert.strictEqual(
+        calculateSpendScore({
+          essentialsPercent: 75,
+          discretionaryPercent: 15,
+          debtOrOtherPercent: 10,
+        }),
+        8,
+      );
+      assert.strictEqual(
+        calculateSpendScore({
+          essentialsPercent: 85,
+          discretionaryPercent: 10,
+          debtOrOtherPercent: 5,
+        }),
+        4,
+      );
+      assert.strictEqual(
+        calculateSpendScore({
+          essentialsPercent: 95,
+          discretionaryPercent: 5,
+          debtOrOtherPercent: 0,
+        }),
+        2,
+      );
     });
   });
 
@@ -139,7 +171,11 @@ describe("Financial Health Meter - Calculation & Scoring", () => {
       const input: HealthQuizInput = {
         incomeRange: "tier_3",
         incomeStability: "stable",
-        spendBuckets: { essentialsPercent: 45, discretionaryPercent: 20, debtOrOtherPercent: 35 },
+        spendBuckets: {
+          essentialsPercent: 45,
+          discretionaryPercent: 20,
+          debtOrOtherPercent: 35,
+        },
         savingsRate: 25,
         emergencyMonths: 6,
       };
@@ -157,7 +193,11 @@ describe("Financial Health Meter - Calculation & Scoring", () => {
       const input: HealthQuizInput = {
         incomeRange: "tier_1",
         incomeStability: "variable",
-        spendBuckets: { essentialsPercent: 80, discretionaryPercent: 15, debtOrOtherPercent: 5 },
+        spendBuckets: {
+          essentialsPercent: 80,
+          discretionaryPercent: 15,
+          debtOrOtherPercent: 5,
+        },
         savingsRate: 5,
         emergencyMonths: 0.5,
       };
@@ -172,7 +212,11 @@ describe("Financial Health Meter - Calculation & Scoring", () => {
       const input: HealthQuizInput = {
         incomeRange: "tier_2",
         incomeStability: "variable",
-        spendBuckets: { essentialsPercent: 65, discretionaryPercent: 20, debtOrOtherPercent: 15 },
+        spendBuckets: {
+          essentialsPercent: 65,
+          discretionaryPercent: 20,
+          debtOrOtherPercent: 15,
+        },
         savingsRate: 10,
         emergencyMonths: 2,
       };
@@ -189,18 +233,31 @@ describe("Financial Health Meter - Calculation & Scoring", () => {
       const input: HealthQuizInput = {
         incomeRange: "tier_1",
         incomeStability: "unpredictable",
-        spendBuckets: { essentialsPercent: 75, discretionaryPercent: 20, debtOrOtherPercent: 5 },
+        spendBuckets: {
+          essentialsPercent: 75,
+          discretionaryPercent: 20,
+          debtOrOtherPercent: 5,
+        },
         savingsRate: 3,
         emergencyMonths: 1,
       };
 
       const result = calculateHealthScore(input);
-      assert(result.tips.length >= 2, "Should provide at least two educational tips");
+      assert(
+        result.tips.length >= 2,
+        "Should provide at least two educational tips",
+      );
 
       // Verify non-advisory educational language
       for (const tip of result.tips) {
-        assert(!tip.toLowerCase().includes("buy "), "Tips must never say 'buy <instrument>'");
-        assert(!tip.toLowerCase().includes("sell "), "Tips must never say 'sell <instrument>'");
+        assert(
+          !tip.toLowerCase().includes("buy "),
+          "Tips must never say 'buy <instrument>'",
+        );
+        assert(
+          !tip.toLowerCase().includes("sell "),
+          "Tips must never say 'sell <instrument>'",
+        );
       }
     });
   });

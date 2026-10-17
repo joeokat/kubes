@@ -1,16 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import {
+    ActivityIndicator,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../../contexts/auth";
-import { fetchLatestHealthScore, calculateHealthScore } from "../../../lib/health-meter";
-import { HealthQuizRecord, HealthScoreResult } from "../../../types/health-meter";
+import {
+    calculateHealthScore,
+    fetchLatestHealthScore,
+} from "../../../lib/health-meter";
+import {
+    HealthQuizRecord,
+    HealthScoreResult,
+} from "../../../types/health-meter";
 
 export default function HealthMeterScreen() {
   const router = useRouter();
   const { user } = useAuth();
   const [record, setRecord] = useState<HealthQuizRecord | null>(null);
-  const [scoreResult, setScoreResult] = useState<HealthScoreResult | null>(null);
+  const [scoreResult, setScoreResult] = useState<HealthScoreResult | null>(
+    null,
+  );
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -82,7 +96,9 @@ export default function HealthMeterScreen() {
               activeOpacity={0.7}
               className="py-2 px-3 rounded-xl border border-slate-200 bg-white"
             >
-              <Text className="text-xs font-bold text-slate-700">← Dashboard</Text>
+              <Text className="text-xs font-bold text-slate-700">
+                ← Dashboard
+              </Text>
             </TouchableOpacity>
 
             <View className="px-3 py-1 bg-emerald-50 rounded-full border border-emerald-200/60">
@@ -95,7 +111,9 @@ export default function HealthMeterScreen() {
           {loading ? (
             <View className="py-20 items-center justify-center">
               <ActivityIndicator size="large" color="#059669" />
-              <Text className="text-sm text-slate-500 mt-4">Loading your financial scorecard...</Text>
+              <Text className="text-sm text-slate-500 mt-4">
+                Loading your financial scorecard...
+              </Text>
             </View>
           ) : !record ? (
             /* Unassessed State Card */
@@ -108,7 +126,9 @@ export default function HealthMeterScreen() {
                 Assess Your Financial Health
               </Text>
               <Text className="text-sm sm:text-base text-slate-500 leading-relaxed mb-6">
-                Understand where your money goes, calculate your emergency runway, and receive a plain-language score band with personalized educational steps.
+                Understand where your money goes, calculate your emergency
+                runway, and receive a plain-language score band with
+                personalized educational steps.
               </Text>
 
               {/* Assessment Breakdown Preview Grid */}
@@ -118,7 +138,8 @@ export default function HealthMeterScreen() {
                     1. Emergency Runway
                   </Text>
                   <Text className="text-xs text-slate-500">
-                    How many months of basic living costs your cash reserves cover.
+                    How many months of basic living costs your cash reserves
+                    cover.
                   </Text>
                 </View>
 
@@ -168,13 +189,18 @@ export default function HealthMeterScreen() {
                 <View className="flex-row flex-wrap items-center justify-between gap-4 mb-6">
                   <View className="flex-1">
                     <View className="flex-row items-center space-x-2 mb-2">
-                      <View className={`px-3 py-1 rounded-full ${bandStyles.badgeBg} mr-2`}>
-                        <Text className={`text-xs font-bold uppercase tracking-wider ${bandStyles.textColor}`}>
+                      <View
+                        className={`px-3 py-1 rounded-full ${bandStyles.badgeBg} mr-2`}
+                      >
+                        <Text
+                          className={`text-xs font-bold uppercase tracking-wider ${bandStyles.textColor}`}
+                        >
                           {record.band} Band
                         </Text>
                       </View>
                       <Text className="text-xs text-slate-400">
-                        Updated {new Date(record.computed_at).toLocaleDateString()}
+                        Updated{" "}
+                        {new Date(record.computed_at).toLocaleDateString()}
                       </Text>
                     </View>
 
@@ -188,7 +214,9 @@ export default function HealthMeterScreen() {
 
                   {/* Aurex/Finor Circular Radial Score Ring */}
                   <View className="items-center justify-center p-3">
-                    <View className={`w-24 h-24 rounded-full border-8 bg-slate-50 items-center justify-center ${bandStyles.ringColor}`}>
+                    <View
+                      className={`w-24 h-24 rounded-full border-8 bg-slate-50 items-center justify-center ${bandStyles.ringColor}`}
+                    >
                       <Text className="text-3xl font-extrabold text-slate-900">
                         {record.score}
                       </Text>
@@ -205,11 +233,15 @@ export default function HealthMeterScreen() {
                     Has your income or savings changed?
                   </Text>
                   <TouchableOpacity
-                    onPress={() => router.push("/(app)/health-meter/quiz" as any)}
+                    onPress={() =>
+                      router.push("/(app)/health-meter/quiz" as any)
+                    }
                     activeOpacity={0.7}
                     className="py-1.5 px-3 rounded-lg border border-slate-300 bg-white"
                   >
-                    <Text className="text-xs font-bold text-slate-700">Retake Quiz ↻</Text>
+                    <Text className="text-xs font-bold text-slate-700">
+                      Retake Quiz ↻
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -233,7 +265,9 @@ export default function HealthMeterScreen() {
                     </View>
                     <View className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <View
-                        style={{ width: `${Math.min(100, (Number(record.savings_rate) / 20) * 100)}%` }}
+                        style={{
+                          width: `${Math.min(100, (Number(record.savings_rate) / 20) * 100)}%`,
+                        }}
                         className="h-full bg-emerald-600 rounded-full"
                       />
                     </View>
@@ -246,12 +280,17 @@ export default function HealthMeterScreen() {
                         Emergency Fund Runway
                       </Text>
                       <Text className="text-xs font-bold text-blue-700">
-                        {record.emergency_months} {Number(record.emergency_months) === 1 ? "month" : "months"}
+                        {record.emergency_months}{" "}
+                        {Number(record.emergency_months) === 1
+                          ? "month"
+                          : "months"}
                       </Text>
                     </View>
                     <View className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <View
-                        style={{ width: `${Math.min(100, (Number(record.emergency_months) / 6) * 100)}%` }}
+                        style={{
+                          width: `${Math.min(100, (Number(record.emergency_months) / 6) * 100)}%`,
+                        }}
                         className="h-full bg-blue-600 rounded-full"
                       />
                     </View>
@@ -264,12 +303,15 @@ export default function HealthMeterScreen() {
                         Essential Living Expenses
                       </Text>
                       <Text className="text-xs font-bold text-purple-700">
-                        {record.spend_buckets?.essentialsPercent ?? 55}% of income
+                        {record.spend_buckets?.essentialsPercent ?? 55}% of
+                        income
                       </Text>
                     </View>
                     <View className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <View
-                        style={{ width: `${Math.min(100, record.spend_buckets?.essentialsPercent ?? 55)}%` }}
+                        style={{
+                          width: `${Math.min(100, record.spend_buckets?.essentialsPercent ?? 55)}%`,
+                        }}
                         className="h-full bg-purple-600 rounded-full"
                       />
                     </View>
@@ -315,7 +357,9 @@ export default function HealthMeterScreen() {
         {/* Compliance Disclaimer Footer per SOP §7 */}
         <View className="pt-6 pb-2 border-t border-slate-200/70">
           <Text className="text-xs text-slate-500 text-center leading-relaxed">
-            This platform is for education only. Nothing here is financial, investment, or trading advice, and no outcome is promised. Kubes is not a registered investment advisor or broker-dealer.
+            This platform is for education only. Nothing here is financial,
+            investment, or trading advice, and no outcome is promised. Kubes is
+            not a registered investment advisor or broker-dealer.
           </Text>
         </View>
       </ScrollView>

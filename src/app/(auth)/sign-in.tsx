@@ -57,7 +57,9 @@ export default function SignInScreen() {
     <SafeAreaView className="flex-1 bg-[#F8F9FB]">
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
-        className="flex-1 px-5 py-8 max-w-lg mx-auto w-full justify-between"
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        className="flex-1 px-5 py-8 max-w-lg mx-auto w-full justify-between no-scrollbar"
       >
         <View>
           {/* Header & Logo */}

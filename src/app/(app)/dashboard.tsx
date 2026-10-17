@@ -5,10 +5,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { GuidedWalkthrough } from "../../components/guided-walkthrough";
 import { useAuth } from "../../contexts/auth";
 import { fetchUserProgress } from "../../lib/curriculum";
+import {
+  fetchLatestHealthScore,
+  HealthQuizRecord,
+} from "../../lib/health-meter";
 import { ONBOARDING_STEPS } from "../../lib/onboarding";
 import {
-    isWalkthroughCompleted,
-    resetWalkthroughStatus,
+  isWalkthroughCompleted,
+  resetWalkthroughStatus,
 } from "../../lib/walkthrough";
 
 export default function DashboardScreen() {
@@ -19,6 +23,8 @@ export default function DashboardScreen() {
     string | null
   >(null);
   const [completedLessonsCount, setCompletedLessonsCount] = useState<number>(0);
+  const [healthScoreRecord, setHealthScoreRecord] =
+    useState<HealthQuizRecord | null>(null);
 
   // Check walkthrough status on initial mount
   useEffect(() => {
@@ -30,11 +36,14 @@ export default function DashboardScreen() {
     });
   }, []);
 
-  // Fetch real lesson progress
+  // Fetch real lesson progress and health score
   useEffect(() => {
     if (user) {
       fetchUserProgress(user.id).then((progress) => {
         setCompletedLessonsCount(progress.length);
+      });
+      fetchLatestHealthScore(user.id).then((record) => {
+        setHealthScoreRecord(record);
       });
     }
   }, [user]);
@@ -258,20 +267,43 @@ export default function DashboardScreen() {
                     Status
                   </Text>
                   <Text className="text-sm font-bold text-slate-900">
-                    Needs Assessment
+                    {healthScoreRecord
+                      ? `${healthScoreRecord.band} Band`
+                      : "Needs Assessment"}
                   </Text>
                 </View>
-                <View className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-emerald-500 items-center justify-center">
-                  <Text className="text-xs font-bold text-slate-700">--</Text>
+                <View
+                  className={`w-12 h-12 rounded-full border-4 items-center justify-center ${
+                    healthScoreRecord
+                      ? healthScoreRecord.band === "Strong"
+                        ? "border-slate-200 border-t-emerald-500"
+                        : healthScoreRecord.band === "Steady"
+                          ? "border-slate-200 border-t-blue-500"
+                          : "border-slate-200 border-t-amber-500"
+                      : "border-slate-200 border-t-emerald-500"
+                  }`}
+                >
+                  <Text className="text-xs font-bold text-slate-700">
+                    {healthScoreRecord ? healthScoreRecord.score : "--"}
+                  </Text>
                 </View>
               </View>
 
               <TouchableOpacity
+                onPress={() =>
+                  router.push(
+                    (healthScoreRecord
+                      ? "/(app)/health-meter"
+                      : "/(app)/health-meter/quiz") as any,
+                  )
+                }
                 activeOpacity={0.8}
                 className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
               >
                 <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  Take Health Quiz
+                  {healthScoreRecord
+                    ? "View Scorecard & Tips →"
+                    : "Take Health Quiz →"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -307,10 +339,10 @@ export default function DashboardScreen() {
               <View className="p-3 bg-slate-50 border border-slate-100 rounded-2xl mb-4">
                 <View className="flex-row justify-between items-center mb-1.5">
                   <Text className="text-xs font-semibold text-slate-600">
-                    Day 0 of 90
+                    Set your own schedule
                   </Text>
                   <Text className="text-xs font-bold text-slate-800">
-                    Target: Flexible
+                    90 days
                   </Text>
                 </View>
                 <View className="flex-row space-x-1">
@@ -324,11 +356,12 @@ export default function DashboardScreen() {
               </View>
 
               <TouchableOpacity
+                onPress={() => router.push("/(app)/savings-challenge" as any)}
                 activeOpacity={0.8}
                 className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
               >
                 <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  Join 90-Day Challenge
+                  Set Up or View Challenge →
                 </Text>
               </TouchableOpacity>
             </View>
@@ -382,11 +415,37 @@ export default function DashboardScreen() {
               </View>
 
               <TouchableOpacity
+                onPress={() => router.push("/(app)/budget" as any)}
                 activeOpacity={0.8}
                 className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
               >
                 <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                  Setup Budget Framework
+                  Open Expense Tracker →
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-100 items-center justify-center">
+                  <Text className="text-blue-700 font-bold text-base">◎</Text>
+                </View>
+                <Text className="text-blue-800 text-[10px] font-bold uppercase tracking-wider">
+                  Community
+                </Text>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Community Forum
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Ask questions and learn with other members.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/forum" as any)}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  Browse discussions →
                 </Text>
               </TouchableOpacity>
             </View>

@@ -112,11 +112,10 @@ and its Definition of Done — nothing more.
 - [x] 1. Auth & onboarding (Google sign-in + 3-step quiz)
 - [x] 2. Dashboard with skippable guided walkthrough
 - [x] 3. Investing 101 curriculum + lesson unlock logic + quizzes
-- [ ] 4. Financial health meter (self-reported quiz version)
-- [ ] 5. Expense tracker & budgeting tool (framework selection, expense
-     logging, spending meter, warnings, recommendations)
-- [ ] 6. 90-day savings challenge (manual check-ins, streak, progress)
-- [ ] 7. Public forum (threads, replies, report action)
+- [x] 4. Financial health meter (self-reported quiz version)
+- [x] 5. Expense tracker & budgeting tool (logging, spending meter, warnings, recommendations)
+- [x] 6. 90-day savings challenge (manual check-ins, streak, progress)
+- [x] 7. Public forum (threads, replies, report action)
 - [ ] 8. Blog (premium-gated)
 - [ ] 9. Payment flow (Paystack checkout + Edge Function webhook
      verification for both lesson unlocks and lifetime premium)
@@ -163,6 +162,7 @@ founder has approved the phase.**
 ## 7. Notes & suggestions (append here, don't act on these unprompted)
 
 _(Agents: log anything you noticed but didn't act on here, with the date.)_
+2026-10-04 — Phase 1, task 7 — Forum implementation is ready, but its new report-table RLS policy still needs verification with an authenticated non-privileged test account; no local database tooling or test session is available here.
 
 ---
 
@@ -173,3 +173,7 @@ _(Agents: add entries here as `YYYY-MM-DD — Phase X, task N — one-line summa
 2026-09-21 — Phase 1, task 1 — Built Google auth with session persistence, 3-step onboarding quiz writing to profiles, and route protection with moodboard styling across web, iOS, and Android.
 2026-09-27 — Phase 1, task 2 — Built Finor/Aurex-styled dashboard with learning momentum metrics, core educational module cards, and a 4-step skippable guided walkthrough.
 2026-09-27 — Phase 1, task 3 — Built 7-lesson Investing 101 curriculum with Ghana localization, end-of-lesson quizzes with passing threshold grading, unlock progression logic, and progress tracking.
+2026-10-04 — Phase 1, task 4 — Built self-reported financial health meter assessment, scoring engine, band classification (Building/Steady/Strong), plain-language educational tips, and dashboard scorecard integration.
+2026-10-04 — Phase 1, task 5 — Built expense logging, customizable budget frameworks, monthly spending meters, overspend warnings, and non-advisory recommendations with calculation tests.
+2026-10-04 — Phase 1, task 6 — Built the 90-day manual savings challenge with daily/weekly/monthly targets, confirmed check-ins, progress, contribution history, and streak tests.
+2026-10-17 — Phase 1, task 7 — Built public community forum with category filters, discussion threads, reply cascades, report action modal, and universal platform verification.
