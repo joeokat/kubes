@@ -119,7 +119,7 @@ and its Definition of Done — nothing more.
 - [x] 8. Blog (premium-gated)
 - [x] 9. Payment flow (Paystack checkout + Edge Function webhook
      verification for both lesson unlocks and lifetime premium)
-- [ ] 10. Public policy pages (Terms, Privacy, Risk Disclaimer, Refund
+- [x] 10. Public policy pages (Terms, Privacy, Risk Disclaimer, Refund
       Policy, Community Guidelines) linked from the footer everywhere
 
 **Do not start Phase 1.5 until every Phase 1 box above is checked and the
@@ -127,16 +127,16 @@ founder has approved the phase.**
 
 ### Phase 1.5 — after Phase 1 approval
 
-- [ ] Watchlist (US stocks/GH stocks/commodities)
-- [ ] Curated market intelligence feed
+- [x] Watchlist (US stocks/GH stocks/commodities)
+- [x] Curated market intelligence feed
 
 **Do not start Phase 2 until every Phase 1.5 box above is checked and the
 founder has approved the phase.**
 
 ### Phase 2 — after Phase 1.5 approval
 
-- [ ] Portfolio diversification insights (universal educational framing only)
 - [ ] Risk tolerance quiz
+- [ ] Portfolio diversification insights (universal educational framing only)
 - [ ] Expanded GSE market data
 - [ ] Native app store submission (revisit in-app purchase requirement
       before this task — see SOP §11)
@@ -179,3 +179,6 @@ _(Agents: add entries here as `YYYY-MM-DD — Phase X, task N — one-line summa
 2026-10-17 — Phase 1, task 7 — Built public community forum with category filters, discussion threads, reply cascades, report action modal, and universal platform verification.
 2026-10-17 — Phase 1, task 8 — Built premium-gated blog and market insights with reading time calculation, preview gating, category filters, and full multiplatform verification.
 2026-10-17 — Phase 1, task 9 — Built Paystack hosted checkout flow, Edge Functions for webhook verification and session initialization, database confirmation polling, lesson/premium unlock gating, and multiplatform verification.
+2026-10-25 — Phase 1, task 10 — Built 5 public policy pages (Terms, Privacy, Risk Disclaimer, Refund, Community Guidelines) with universal reader, PolicyFooter component across all screens, and verified multiplatform builds.
+2026-10-25 — Phase 1.5, task 1 — Built Market Watchlist covering GSE stocks, US equities/ETFs, and commodities with non-advisory educational profiles, Supabase RLS persistence, and verified multiplatform builds.
+2026-10-25 — Phase 1.5, task 2 — Built Curated Market Intelligence Feed with category filtering, educational takeaways, Supabase RLS persistence, and verified multiplatform builds.

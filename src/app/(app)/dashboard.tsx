@@ -522,6 +522,64 @@ export default function DashboardScreen() {
                 </Text>
               </TouchableOpacity>
             </View>
+
+            {/* Module 7: Market Watchlist (Phase 1.5) */}
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 items-center justify-center">
+                  <Text className="text-emerald-700 font-bold text-base">📈</Text>
+                </View>
+                <View className="px-2.5 py-0.5 bg-emerald-50 border border-emerald-200/60 rounded-full">
+                  <Text className="text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
+                    Phase 1.5 • Live
+                  </Text>
+                </View>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Market Watchlist
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Track GSE equities (MTN, GCB), US index funds, and commodities with zero capital risk.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/watchlist" as any)}
+                activeOpacity={0.8}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  Open Watchlist →
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Module 8: Market Intelligence Feed (Phase 1.5) */}
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 items-center justify-center">
+                  <Text className="text-emerald-700 font-bold text-base">📡</Text>
+                </View>
+                <View className="px-2.5 py-0.5 bg-purple-50 border border-purple-200/60 rounded-full">
+                  <Text className="text-purple-800 text-[10px] font-bold uppercase tracking-wider">
+                    Phase 1.5 • Curated
+                  </Text>
+                </View>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Market Intelligence Feed
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Curated macro headlines, Bank of Ghana rate moves, and commodity news decoded for beginners.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/market-feed" as any)}
+                activeOpacity={0.8}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  Read Intelligence →
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 
