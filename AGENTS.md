@@ -135,9 +135,9 @@ founder has approved the phase.**
 
 ### Phase 2 — after Phase 1.5 approval
 
-- [ ] Risk tolerance quiz
-- [ ] Portfolio diversification insights (universal educational framing only)
-- [ ] Expanded GSE market data
+- [x] Risk tolerance quiz
+- [x] Portfolio diversification insights (universal educational framing only)
+- [x] Expanded GSE market data
 - [ ] Native app store submission (revisit in-app purchase requirement
       before this task — see SOP §11)
 
@@ -182,3 +182,6 @@ _(Agents: add entries here as `YYYY-MM-DD — Phase X, task N — one-line summa
 2026-10-25 — Phase 1, task 10 — Built 5 public policy pages (Terms, Privacy, Risk Disclaimer, Refund, Community Guidelines) with universal reader, PolicyFooter component across all screens, and verified multiplatform builds.
 2026-10-25 — Phase 1.5, task 1 — Built Market Watchlist covering GSE stocks, US equities/ETFs, and commodities with non-advisory educational profiles, Supabase RLS persistence, and verified multiplatform builds.
 2026-10-25 — Phase 1.5, task 2 — Built Curated Market Intelligence Feed with category filtering, educational takeaways, Supabase RLS persistence, and verified multiplatform builds.
+2026-10-25 — Phase 2, task 1 — Built Risk Tolerance Quiz engine, 5-question calibrated scoring, behavioral profiling (Conservative/Moderate/Growth), conceptual asset class models, Supabase RLS persistence, and verified multiplatform builds.
+2026-10-25 — Phase 2, task 2 — Built portfolio diversification engine, self-reported holding manager, asset class breakdown, educational insights, and verified multiplatform builds.
+2026-10-25 — Phase 2, task 3 — Built Expanded GSE Market Data engine, benchmark indices (GSE-CI, GSE-FSI), market status/hours calculator, 11-equity directory, CSD trading guide, and verified multiplatform builds.

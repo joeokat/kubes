@@ -122,11 +122,16 @@ export default function WatchlistScreen() {
             </TouchableOpacity>
 
             <View className="flex-row items-center gap-2">
-              <View className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200">
-                <Text className="text-xs font-bold text-emerald-800 uppercase tracking-wider">
-                  Phase 1.5 • Market Data
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/gse-market" as any)}
+                activeOpacity={0.8}
+                className="px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 flex-row items-center"
+              >
+                <Text className="text-xs mr-1">🇬🇭</Text>
+                <Text className="text-xs font-bold text-emerald-800">
+                  GSE Market Hub →
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
 

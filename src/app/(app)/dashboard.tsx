@@ -580,6 +580,93 @@ export default function DashboardScreen() {
                 </Text>
               </TouchableOpacity>
             </View>
+
+            {/* Module 9: Risk Tolerance Quiz (Phase 2) */}
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 items-center justify-center">
+                  <Text className="text-emerald-700 font-bold text-base">🎯</Text>
+                </View>
+                <View className="px-2.5 py-0.5 bg-blue-50 border border-blue-200/60 rounded-full">
+                  <Text className="text-blue-800 text-[10px] font-bold uppercase tracking-wider">
+                    Phase 2 • Profile
+                  </Text>
+                </View>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Risk Tolerance Quiz
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Discover your behavioral comfort zone with volatility, time horizon, and conceptual asset mix.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/risk-tolerance" as any)}
+                activeOpacity={0.8}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  View Profile & Quiz →
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Module 10: Portfolio Diversification (Phase 2) */}
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-100 items-center justify-center">
+                  <Text className="text-indigo-700 font-bold text-base">📊</Text>
+                </View>
+                <View className="px-2.5 py-0.5 bg-indigo-50 border border-indigo-200/60 rounded-full">
+                  <Text className="text-indigo-800 text-[10px] font-bold uppercase tracking-wider">
+                    Phase 2 • Insights
+                  </Text>
+                </View>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Portfolio Diversification
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Log self-reported holdings to visualize asset class spread and concentration risk with universal educational framing.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/portfolio" as any)}
+                activeOpacity={0.8}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  View Diversification Insights →
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Module 11: Expanded GSE Market Data (Phase 2) */}
+            <View className="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm mb-4">
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-100 items-center justify-center">
+                  <Text className="text-emerald-700 font-bold text-base">🇬🇭</Text>
+                </View>
+                <View className="px-2.5 py-0.5 bg-emerald-50 border border-emerald-200/60 rounded-full">
+                  <Text className="text-emerald-800 text-[10px] font-bold uppercase tracking-wider">
+                    Phase 2 • Market Data
+                  </Text>
+                </View>
+              </View>
+              <Text className="text-lg font-bold text-slate-900 mb-1">
+                Ghana Stock Exchange (GSE)
+              </Text>
+              <Text className="text-sm text-slate-500 leading-normal mb-4">
+                Explore benchmark indices (GSE-CI, GSE-FSI), active listed equities across 6 sectors, trading hours, and CSD market mechanics.
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.push("/(app)/gse-market" as any)}
+                activeOpacity={0.8}
+                className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white active:bg-slate-50 items-center justify-center"
+              >
+                <Text className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  Explore GSE Market Data →
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
 

@@ -66,8 +66,9 @@ describe("Market Watchlist Engine (PRD §6 & SOP §9)", () => {
 
     // Search with category filter
     const ghanaEnergy = searchAssets("energy", "gh_stock");
-    assert.equal(ghanaEnergy.length, 1);
-    assert.equal(ghanaEnergy[0].symbol, "TOTAL");
+    assert.ok(ghanaEnergy.length >= 1);
+    assert.ok(ghanaEnergy.some((a) => a.symbol === "TOTAL"));
+    assert.ok(ghanaEnergy.some((a) => a.symbol === "GOIL"));
   });
 
   it("formats price display with exact currency prefix and decimals", () => {
