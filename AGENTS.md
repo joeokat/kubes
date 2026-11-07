@@ -138,7 +138,7 @@ founder has approved the phase.**
 - [x] Risk tolerance quiz
 - [x] Portfolio diversification insights (universal educational framing only)
 - [x] Expanded GSE market data
-- [ ] Native app store submission (revisit in-app purchase requirement
+- [x] Native app store submission (revisit in-app purchase requirement
       before this task — see SOP §11)
 
 ---
@@ -185,3 +185,4 @@ _(Agents: add entries here as `YYYY-MM-DD — Phase X, task N — one-line summa
 2026-10-25 — Phase 2, task 1 — Built Risk Tolerance Quiz engine, 5-question calibrated scoring, behavioral profiling (Conservative/Moderate/Growth), conceptual asset class models, Supabase RLS persistence, and verified multiplatform builds.
 2026-10-25 — Phase 2, task 2 — Built portfolio diversification engine, self-reported holding manager, asset class breakdown, educational insights, and verified multiplatform builds.
 2026-10-25 — Phase 2, task 3 — Built Expanded GSE Market Data engine, benchmark indices (GSE-CI, GSE-FSI), market status/hours calculator, 11-equity directory, CSD trading guide, and verified multiplatform builds.
+2026-11-07 — Phase 2, task 4 — Configured native app store submission readiness (app.json identifiers, eas.json profiles), implemented compliant Reader/Web-account billing model per SOP §11 & Guideline 3.1.3(a), and verified multiplatform builds.

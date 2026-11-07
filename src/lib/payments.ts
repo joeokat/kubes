@@ -84,6 +84,31 @@ export function parsePaystackAmount(smallestUnitAmount: number): number {
   return smallestUnitAmount / 100;
 }
 
+/**
+ * Platform Billing Model per SOP §11 & App Store Review Guideline 3.1.3(a)
+ * Web build uses Paystack directly (MoMo & Card).
+ * Native iOS/Android builds use Reader / Account model to stay fully compliant
+ * with App Store / Google Play digital goods policies without 15-30% platform cuts.
+ */
+export const WEB_APP_URL = "https://app.kubes.com";
+
+export function getPlatformBillingModel(
+  platformOS = getPlatformOS()
+): "web_direct" | "native_reader" {
+  return platformOS === "web" ? "web_direct" : "native_reader";
+}
+
+export function getWebAccountUpgradeUrl(
+  planType: PaymentPlanType,
+  lessonId?: string
+): string {
+  const base = `${WEB_APP_URL}/curriculum`;
+  if (planType === "lesson_unlock" && lessonId) {
+    return `${base}/${lessonId}?action=unlock`;
+  }
+  return `${base}?action=upgrade_premium`;
+}
+
 // In-memory payment store for offline / dev / test runner
 const memoryPayments: Record<string, PaymentRecord[]> = {};
 

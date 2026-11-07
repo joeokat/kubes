@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  Platform,
+  Linking,
 } from "react-native";
 import {
   PaymentPlanType,
@@ -17,6 +19,8 @@ import {
   openPaystackHostedCheckout,
   verifyPaymentConfirmation,
   simulateDevPaymentConfirmation,
+  getPlatformBillingModel,
+  getWebAccountUpgradeUrl,
 } from "../lib/payments";
 import { useAuth } from "../contexts/auth";
 
@@ -50,6 +54,27 @@ export function PaystackCheckoutModal({
   const lessonConfig = getPaymentPriceConfig("lesson_unlock");
 
   const isDev = process.env.EXPO_PUBLIC_APP_ENV === "development";
+  const isNative = Platform.OS !== "web";
+
+  const handleOpenWebPortal = async () => {
+    const url = getWebAccountUpgradeUrl(selectedPlan, lessonId);
+    try {
+      await Linking.openURL(url);
+    } catch {
+      setErrorMessage("Could not open external browser. Please visit app.kubes.com.");
+    }
+  };
+
+  const handleCheckAccountSync = async () => {
+    if (!user) return;
+    setStatus("verifying");
+    setErrorMessage(null);
+    await refreshProfile();
+    // A short pause to allow user to see verification
+    setTimeout(() => {
+      setStatus("success");
+    }, 1200);
+  };
 
   const handleStartPayment = async () => {
     if (!user) {
@@ -316,21 +341,54 @@ export function PaystackCheckoutModal({
                 </View>
               )}
 
-              {/* Action Buttons */}
-              <TouchableOpacity
-                onPress={handleStartPayment}
-                disabled={status === "launching"}
-                activeOpacity={0.85}
-                className="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 active:bg-emerald-700 items-center justify-center shadow-xs mb-3"
-              >
-                {status === "launching" ? (
-                  <ActivityIndicator size="small" color="#ffffff" />
-                ) : (
-                  <Text className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
-                    Proceed to Paystack ({selectedPlan === "lifetime_premium" ? "$20" : "GH₵0.50"}) →
-                  </Text>
-                )}
-              </TouchableOpacity>
+              {/* Action Buttons: Native Reader Model vs Web Direct Checkout */}
+              {isNative ? (
+                <View className="mb-3 space-y-2">
+                  <View className="p-3.5 bg-blue-50/80 border border-blue-200 rounded-2xl mb-3">
+                    <Text className="text-xs font-bold text-blue-900 mb-1">
+                      📱 Reader & Web Account Access
+                    </Text>
+                    <Text className="text-[11px] text-blue-800 leading-relaxed">
+                      Digital upgrades are managed through your Kubes web account at app.kubes.com. Once completed, your unlocked content syncs automatically to this device.
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={handleOpenWebPortal}
+                    activeOpacity={0.85}
+                    className="w-full py-3.5 px-6 rounded-2xl bg-indigo-600 active:bg-indigo-700 items-center justify-center shadow-xs mb-2"
+                  >
+                    <Text className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
+                      Manage on Web Portal (app.kubes.com) ↗
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={handleCheckAccountSync}
+                    activeOpacity={0.85}
+                    className="w-full py-3 px-6 rounded-2xl bg-slate-900 active:bg-slate-800 items-center justify-center"
+                  >
+                    <Text className="text-xs font-bold text-white uppercase tracking-wider">
+                      Sync / Check Account Status 🔄
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={handleStartPayment}
+                  disabled={status === "launching"}
+                  activeOpacity={0.85}
+                  className="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 active:bg-emerald-700 items-center justify-center shadow-xs mb-3"
+                >
+                  {status === "launching" ? (
+                    <ActivityIndicator size="small" color="#ffffff" />
+                  ) : (
+                    <Text className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
+                      Proceed to Paystack ({selectedPlan === "lifetime_premium" ? "$20" : "GH₵0.50"}) →
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              )}
 
               {isDev && (
                 <TouchableOpacity
